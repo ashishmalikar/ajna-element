@@ -2,11 +2,6 @@ import { AjnaElementMixin } from './mixins';
 // import { init } from 'snabbdom/build/package/init'
 import { init } from '../dom-engine'
 
-import { classModule } from 'snabbdom/build/package/modules/class'
-import { propsModule } from 'snabbdom/build/package/modules/props'
-import { styleModule } from 'snabbdom/build/package/modules/style'
-import { eventListenersModule } from 'snabbdom/build/package/modules/eventlisteners'
-
 import compiler from 'ajna-template-compiler';
 
 import { $api } from '../dom-engine/lib/helpers'
@@ -47,12 +42,15 @@ export class AjnaElement extends AjnaElementMixin(HTMLElement) {
 
   compileTemplate () {
     
-    let compiled = compiler.compileToFunctions(this._template);
+    
+    if(!this.render) {
+      let compiled = compiler.compileToFunctions(this._template);
 
-    console.log('Compiled: ', compiled.render)
+      console.log('Compiled: ', compiled.render.toString())
 
-    this.render = compiled.render;
-    this.staticRenderFns = compiled.staticRenderFns;
+      this.render = compiled.render;
+      this.staticRenderFns = compiled.staticRenderFns;
+    }
 
   }
 
@@ -72,11 +70,15 @@ export class AjnaElement extends AjnaElementMixin(HTMLElement) {
     if(this.render) {
       this.oldVNode = this.render($api)[0];
       this.oldVNode = this.domEngine.patch(this, this.oldVNode);
+
+      console.log("old vnode: ", this.oldVNode)
+
     }
 
   }
 
   _reRender () {
-    // this.oldVNode = this.domEngine.patch(this.oldVNode, this.render($api)[0]);
+    console.log("old vnode: ", this.oldVNode)
+    this.oldVNode = this.domEngine.patch(this.oldVNode, this.render($api)[0]);
   }
 }

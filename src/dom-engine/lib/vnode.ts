@@ -3,6 +3,9 @@ import { Hooks } from './hooks'
 import { Classes } from './modules/class';
 import { Attrs } from './modules/attributes';
 import { On } from './modules/eventsListeners';
+import { VNodeStyle } from 'snabbdom/build/package/modules/style';
+import { Props } from 'snabbdom/build/package/modules/props';
+import { Dataset } from 'snabbdom/build/package/modules/dataset';
 
 export type Key = string | number
 
@@ -16,12 +19,12 @@ export interface VNode {
 }
 
 export interface VNodeData {
-  // props?: Props
+  props?: Props
   attrs?: Attrs
   class?: Classes
   staticClass?: string
-  // style?: VNodeStyle
-  // dataset?: Dataset
+  style?: VNodeStyle
+  dataset?: Dataset
   on?: On
   // hero?: Hero
   // attachData?: AttachData
@@ -38,6 +41,7 @@ export function vnode (sel: string | undefined,
   children: Array<VNode | string> | undefined,
   text: string | undefined,
   elm: Element | Text | undefined): VNode {
+
   const key = data === undefined ? undefined : data.key
   return { sel, data, children, text, elm, key }
 }
