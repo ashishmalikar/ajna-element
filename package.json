@@ -2,14 +2,13 @@
   "name": "ajna",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build ./src/index.js -o dist"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "ajna-template-compiler": "^1.0.1"
   },
