@@ -46,7 +46,7 @@ export class AjnaElement extends AjnaElementMixin(HTMLElement) {
     if(!this.render) {
       let compiled = compiler.compileToFunctions(this._template);
 
-      console.log('Compiled: ', compiled.render.toString())
+      console.log('Compiled: ', compiled.render)
 
       this.render = compiled.render;
       this.staticRenderFns = compiled.staticRenderFns;
@@ -68,17 +68,15 @@ export class AjnaElement extends AjnaElementMixin(HTMLElement) {
   _render () {
 
     if(this.render) {
-      this.oldVNode = this.render($api)[0];
-      this.oldVNode = this.domEngine.patch(this, this.oldVNode);
-
-      console.log("old vnode: ", this.oldVNode)
-
+      this.oldVNode = this.render($api);
+      this.oldVNode = this.domEngine.patch(this, this.oldVNode[0]);
     }
 
   }
 
   _reRender () {
-    console.log("old vnode: ", this.oldVNode)
+    // console.log("before old vnode: ", this.oldVNode)
     this.oldVNode = this.domEngine.patch(this.oldVNode, this.render($api)[0]);
+    // console.log("after old vnode: ", this.oldVNode)
   }
 }

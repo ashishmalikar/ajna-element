@@ -1,8 +1,8 @@
 import { classModule } from './class';
 import { attributesModule } from './attributes'
 import { eventListenersModule } from './eventsListeners';
-import { styleModule } from 'snabbdom/build/package/modules/style';
-import { propsModule } from 'snabbdom/build/package/modules/props';
+import { styleModule } from './styles';
+import { propsModule } from './props';
 
 export const modules = [
   classModule ,

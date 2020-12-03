@@ -17,6 +17,7 @@ function h(sel, b, c) {
     var children;
     var text;
     var i;
+
     if (c !== undefined) {
         if (b !== null) {
             data = b;
@@ -45,9 +46,13 @@ function h(sel, b, c) {
             data = b;
         }
     }
+
     if (children !== undefined) {
+
+        children = children.flat()
+
         for (i = 0; i < children.length; ++i) {
-          
+
           if (isPrimitive(children[i])) {
             children[i] = vnode(undefined, undefined, undefined, children[i], undefined);
           }     

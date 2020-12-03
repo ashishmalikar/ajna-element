@@ -1,7 +1,3 @@
-/**
- * Virtual dom implementation by snabbdom 
- * Changes made as per required in Ajna Element library
- */
 import { VNode, vnode } from './vnode';
 import { htmlDomApi, DOMAPI } from './dom-api';
 import { Module } from './modules/module';
@@ -110,38 +106,33 @@ export function init() {
 
       const elm = vnode.elm = isDef(data) && isDef(i = data.ns)?api.createElementNS(i, tag): api.createElement(tag);
 
-      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode)
+      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
 
       if(Array.isArray(vnode.children)) {
         
+        // console.log('inside child element: ', vnode.children)
+
         for(let i=0; i< vnode.children.length; i++) {
 
           const ch = vnode.children[i];
-
           if(ch != null) {
 
-            api.appendChild(elm, createElm(ch as VNode, insertedVNodeQueue));
+            if(Array.isArray(ch)) {
 
-            // if(Array.isArray(ch)) {
-            //   for (let i = 0; i < ch.length; i++) {
-            //     const ch$2 = ch[i];
 
-            //     if(Array.isArray(ch$2)) {
-            //       for (let j = 0; j < ch$2.length; j++) {
-            //         const ch$3 = ch$2[j];
-            //         api.appendChild(elm, createElm(ch$3 as VNode, insertedVNodeQueue));
-            //       }
-            //     }
-            //   }
-            // }else{
-            //   api.appendChild(elm, createElm(ch as VNode, insertedVNodeQueue));
-            // }
-          }else if (isPrimitive(vnode.text)) {
-            api.appendChild(elm, api.createTextNode(vnode.text))
+              let chArray: VNode[] = normalizeArrayChildren(ch);
+
+              for (let j = 0; j < chArray.length; j++) {
+                const ch$1 = chArray[j];
+                api.appendChild(elm, createElm(ch$1 as VNode, insertedVNodeQueue));
+              }
+            }else{
+              api.appendChild(elm, createElm(ch as VNode, insertedVNodeQueue));
+            }
           }
         }
-      }else{
-
+      }else if (isPrimitive(vnode.text)) {
+        api.appendChild(elm, api.createTextNode(vnode.text))
       }
 
     }else {
@@ -159,6 +150,9 @@ export function init() {
     endIdx: number,
     insertedVnodeQueue: VNodeQueue
   ) {
+
+    vnodes = normalizeArrayChildren(vnodes);
+
     for (; startIdx <= endIdx; ++startIdx) {
       const ch = vnodes[startIdx]
       if (ch != null) {
@@ -217,10 +211,6 @@ export function init() {
     oldCh: VNode[],
     newCh: VNode[],
     insertedVnodeQueue: VNodeQueue) {
-
-
-    
-
     let oldStartIdx = 0
     let newStartIdx = 0
     let oldEndIdx = oldCh.length - 1
@@ -314,9 +304,15 @@ export function init() {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) {
 
-          console.log('Children: ', ch)
 
           updateChildren(elm, oldCh, ch, insertedVnodeQueue)
+
+          // if(isArray(ch)) {
+          //   let ch$1 = normalizeArrayChildren(ch);
+          //   updateChildren(elm, oldCh, ch$1, insertedVnodeQueue) 
+          // }else{
+          //   updateChildren(elm, oldCh, ch, insertedVnodeQueue)
+          // }
         } 
       } else if (isDef(ch)) {
         if (isDef(oldVnode.text)) api.setTextContent(elm, '')
@@ -358,4 +354,13 @@ export function init() {
     return vnode;
 
   }
+}
+
+function normalizeArrayChildren(children): VNode[]  {
+  return children.flat();
+}
+
+
+function isArray(arr: any[]): boolean {
+  return Array.isArray(arr);
 }
