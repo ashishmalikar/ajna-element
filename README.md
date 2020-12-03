@@ -19,12 +19,12 @@
 
 #### SampleComponent.js
 ``` javascript
-import { AjnaElement } from 'ajna';
+import { AjnaElement, data } from 'ajna';
 
 export default class SampleElement extends AjnaElement {
   
   @data
-  name = "Ashish";
+  name = "My Name";
 
   constructor() {
     super();
