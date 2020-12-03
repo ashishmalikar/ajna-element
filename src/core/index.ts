@@ -1,5 +1,5 @@
 import { AjnaElementMixin } from './mixins';
-// import { init } from 'snabbdom/build/package/init'
+
 import { init } from '../dom-engine'
 
 import compiler from 'ajna-template-compiler';
@@ -75,8 +75,6 @@ export class AjnaElement extends AjnaElementMixin(HTMLElement) {
   }
 
   _reRender () {
-    // console.log("before old vnode: ", this.oldVNode)
     this.oldVNode = this.domEngine.patch(this.oldVNode, this.render($api)[0]);
-    // console.log("after old vnode: ", this.oldVNode)
   }
 }
