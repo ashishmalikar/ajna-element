@@ -54,4 +54,6 @@ export default class SampleElement extends AjnaElement {
 
 }
 
+window.customElements.define('sample-component', SampleComponent)
+
 ```
