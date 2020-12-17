@@ -1,4 +1,4 @@
-import { vnode } from "../vnode";
+import { VNode, vnode } from "../vnode";
 
 function addNS(data, children, sel) {
     data.ns = 'http://www.w3.org/2000/svg';
@@ -10,6 +10,15 @@ function addNS(data, children, sel) {
             }
         }
     }
+}
+
+/**
+ * Quick object check - this is primarily used to tell
+ * Objects from primitive values when we know the value
+ * is a JSON-compliant type.
+ */
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
 }
 
 function h(sel, b, c) {
@@ -83,24 +92,18 @@ function isPrimitive (s) {
     return _toString.call(obj) === '[object Object]'
   }
 
-  
-  // These helpers produce better VM code in JS engines due to their
-  // explicitness and function inlining.
-  function isUndef (v) {
-    return v === undefined || v === null
-  }
-
   function isDef (v) {
     return v !== undefined && v !== null
   }
 
-  function isTrue (v) {
-    return v === true
+  /* istanbul ignore next */
+  function isNative (Ctor) {
+    return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
   }
 
-  function isFalse (v) {
-    return v === false
-  }
+  var hasSymbol =
+    typeof Symbol !== 'undefined' && isNative(Symbol) &&
+    typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
 
 
   /**
@@ -157,15 +160,52 @@ function isPrimitive (s) {
     return ret
   }
 
+  function renderSlot(
+    name,
+    content) {
+
+    if(name === 'default') {
+      
+      let temp = document.createElement("div");
+
+      temp.innerHTML = content;
+
+      temp.querySelectorAll("*").forEach((el)=>{
+        if(el.hasAttribute("slot")) {
+          temp.removeChild(el);
+        }
+      });
+
+      return createVnode(temp);
+      
+    }else {
+      let temp = document.createElement("div");
+
+      temp.innerHTML = content;
+
+      let scopedContent = temp.querySelector("[slot="+name+"]")?.innerHTML;
+
+      return createVnode(temp);
+    }
+    
+  }
+
+  function createVnode (el): VNode {
+
+    let sel: string, child
+
+    return vnode("ajna-home-docs", {}, [], "Ajna Home Docys", undefined);
+  }
+
 export const $api = {
   _c: h,
-  _v: function (val) {
-    return {
-      text: val
-    }
-  },
+  _v: createTextVNode,
   _s: toString,
-  _l: renderList
+  _l: renderList,
+  _t: renderSlot
 }
 
+function createTextVNode(v) {
+  return vnode(undefined, undefined, undefined,v, undefined);
+}
 

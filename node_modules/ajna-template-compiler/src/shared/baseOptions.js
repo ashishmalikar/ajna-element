@@ -76,6 +76,31 @@ function transformNode$1 (el, options) {
   }
 }
 
+/**
+   * Create a cached version of a pure function.
+   */
+  function cached (fn) {
+    var cache = Object.create(null);
+    return (function cachedFn (str) {
+      var hit = cache[str];
+      return hit || (cache[str] = fn(str))
+    })
+  }
+
+
+var parseStyleText = cached(function (cssText) {
+  var res = {};
+  var listDelimiter = /;(?![^(]*\))/g;
+  var propertyDelimiter = /:(.+)/;
+  cssText.split(listDelimiter).forEach(function (item) {
+    if (item) {
+      var tmp = item.split(propertyDelimiter);
+      tmp.length > 1 && (res[tmp[0].trim()] = tmp[1].trim());
+    }
+  });
+  return res
+});
+
 function getBindingAttr (
   el,
   name,

@@ -1,2 +1,2 @@
-export { AjnaElement } from './core';
-export * from './decorators';
+export { AjnaElement } from './core/index';
+export * from './decorators/index';

@@ -119,7 +119,6 @@ export function init() {
 
             if(Array.isArray(ch)) {
 
-
               let chArray: VNode[] = normalizeArrayChildren(ch);
 
               for (let j = 0; j < chArray.length; j++) {
@@ -132,6 +131,9 @@ export function init() {
           }
         }
       }else if (isPrimitive(vnode.text)) {
+
+        // elm.innerHTML = vnode.text
+
         api.appendChild(elm, api.createTextNode(vnode.text))
       }
 
@@ -342,12 +344,21 @@ export function init() {
       oldVNode = emptyNodeAt(oldVNode);
     }
 
+    if(isUndef(vnode)) console.error("No template provided");
+
     // For same node
     if(sameVnode(oldVNode, vnode)) {
       patchVnode(oldVNode, vnode, insertedVnodeQueue);
     }else{
       elm = oldVNode.elm;
       createElm(vnode, insertedVnodeQueue);
+
+      console.log("vnode: ", vnode)
+
+      // elm.innerHTML = vnode.elm.innerHTML
+
+      // elm.innerHTML = ""
+
       api.appendChild(elm, vnode.elm)
     }
 
