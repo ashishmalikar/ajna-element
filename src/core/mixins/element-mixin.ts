@@ -34,9 +34,11 @@ export function elementMixin (baseType: any) {
       this.processSlot$1()
       
       this.compileTemplate(); 
-
-      this._render();
     }  
+
+    connectedCallback() {
+      this._render();
+    }
 
     processSlot$1() {
 
@@ -55,7 +57,7 @@ export function elementMixin (baseType: any) {
 
         //   console.log("Construcot: ", this.constructor.name)
 
-          console.log("HTML AST: ", htmlAST);
+          // console.log("HTML AST: ", htmlAST);
         //   console.log("Template ast: ", templateAST)
         //   console.log('**********************************')
 
@@ -169,8 +171,6 @@ export function elementMixin (baseType: any) {
     }
 
     _render () {
-
-      // console.log("render function called")
 
       if(this.render) {
         this.oldVNode = this.render($api);

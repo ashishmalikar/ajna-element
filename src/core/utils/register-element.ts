@@ -1,12 +1,21 @@
 export interface ElementRegistrationOptions {
   namespace?: string;
   tag: string;
-  component: CustomElementConstructor
+  element: CustomElementConstructor
 }
 
-export default function (options: ElementRegistrationOptions) {
+export interface RegisteredElementProperties {
+  namespace: string;
+  tag: string;
+}
+
+/**
+ * For Single element
+ * @param options 
+ */
+export function registerElement (options: ElementRegistrationOptions): RegisteredElementProperties {
   
-  let { namespace, tag, component } = options;
+  let { namespace, tag, element } = options;
 
   namespace = namespace || "c";
 
@@ -15,9 +24,23 @@ export default function (options: ElementRegistrationOptions) {
   tagName = tagName.toLowerCase();
 
   if(!exists(tagName)) {
-    window.customElements.define(tagName, component);
+    window.customElements.define(tagName, element);
   }
 
+  return {
+    namespace: namespace,
+    tag: tagName,
+  }
+
+}
+
+export function registerElements (elements: ElementRegistrationOptions[]): void {
+
+  let elm: ElementRegistrationOptions;
+
+  for(elm of elements) {
+    registerElement(elm);
+  }
 }
 
 /**

@@ -9,6 +9,9 @@ const colonChar = 58
 const xChar = 120
 
 function updateAttrs (oldVnode: VNode, vnode: VNode): void {
+
+  // console.log("updaing attributes: ", vnode)
+
   var key: string
   var elm: Element = vnode.elm as Element
   var oldAttrs = (oldVnode.data as VNodeData).attrs

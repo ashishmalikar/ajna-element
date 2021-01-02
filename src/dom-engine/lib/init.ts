@@ -132,9 +132,9 @@ export function init() {
         }
       }else if (isPrimitive(vnode.text)) {
 
-        // elm.innerHTML = vnode.text
+        elm.innerHTML = vnode.text
 
-        api.appendChild(elm, api.createTextNode(vnode.text))
+        // api.appendChild(elm, api.createTextNode(vnode.text))
       }
 
     }else {
@@ -353,11 +353,7 @@ export function init() {
       elm = oldVNode.elm;
       createElm(vnode, insertedVnodeQueue);
 
-      console.log("vnode: ", vnode)
-
-      // elm.innerHTML = vnode.elm.innerHTML
-
-      // elm.innerHTML = ""
+      elm.innerHTML = ""
 
       api.appendChild(elm, vnode.elm)
     }

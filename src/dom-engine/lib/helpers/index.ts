@@ -165,6 +165,7 @@ function isPrimitive (s) {
     content) {
 
     if(name === 'default') {
+
       
       let temp = document.createElement("div");
 
@@ -176,33 +177,41 @@ function isPrimitive (s) {
         }
       });
 
-      return createVnode(temp);
+      return vnode("slot", {}, undefined, temp.innerHTML, undefined);
       
     }else {
+
       let temp = document.createElement("div");
 
       temp.innerHTML = content;
 
-      let scopedContent = temp.querySelector("[slot="+name+"]")?.innerHTML;
+      let slotContent = temp.querySelector("[slot="+name+"]");
 
-      return createVnode(temp);
+      return vnode("slot", {
+        attrs: {
+          name: name
+        }
+      }, undefined, slotContent?.innerHTML, undefined);
     }
     
   }
 
-  function createVnode (el): VNode {
+var createEmptyVNode = function (text) {
+  if ( text === void 0 ) text = '';
 
-    let sel: string, child
-
-    return vnode("ajna-home-docs", {}, [], "Ajna Home Docys", undefined);
-  }
+  var node = vnode(undefined, undefined, [], text, undefined);
+  node.text = text;
+  // node.isComment = true;
+  return node
+};
 
 export const $api = {
   _c: h,
   _v: createTextVNode,
   _s: toString,
   _l: renderList,
-  _t: renderSlot
+  _t: renderSlot,
+  _e: createEmptyVNode
 }
 
 function createTextVNode(v) {
