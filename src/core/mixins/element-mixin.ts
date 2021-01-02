@@ -52,16 +52,6 @@ export function elementMixin (baseType: any) {
 
         let htmlAST = parse(innerHTML, baseOptions), templateAST = parse(template, baseOptions);
 
-        // if(htmlAST && templateAST) {
-
-
-        //   console.log("Construcot: ", this.constructor.name)
-
-          // console.log("HTML AST: ", htmlAST);
-        //   console.log("Template ast: ", templateAST)
-        //   console.log('**********************************')
-
-        // }
       }
 
       

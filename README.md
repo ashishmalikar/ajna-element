@@ -5,7 +5,7 @@
 <template>
   <div id="App" class="App">
     <header>Welcome {{name}}</header>
-    <hds-button onclick={this.handleClick} label="Click Here"><hds-button>
+    <hds-button @click="this.handleClick" label="Click Here"><hds-button>
   </div>
 </template>
 ```
