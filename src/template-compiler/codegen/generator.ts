@@ -1,7 +1,7 @@
 import { ASTElement } from "../shared/types";
 
-export function createASTElement (tag, attrs, parent): ASTElement {
+export function createASTElement (tag: string, attrs, parent): ASTElement {
   return {
-    
+
   }
 }

@@ -27,7 +27,9 @@ export function elementMixin (baseType: any) {
     constructor () {
       super();
       
-      bindMethods.call(this)
+      bindMethods.call(this);
+
+      this.initAttributes ()
 
       this.initTemplate();    
 
@@ -176,5 +178,42 @@ export function elementMixin (baseType: any) {
     _reRender () {
       this.oldVNode = this.domEngine.patch(this.oldVNode, this.render($api)[0]);
     }
+
+    initAttributes () {
+      
+      let attrs = this.attributes;
+
+      if(this.constructor.name === 'AjnaButtonElement') {
+
+        for(const attr of attrs) {
+
+          let camelizedName = camelize(attr.name);
+
+          let exists = this.hasOwnProperty(camelizedName);
+
+          this[camelizedName] = attr.value
+
+        }        
+      }
+    }
   }
 }
+
+  /**
+   * Camelize a hyphen-delimited string.
+   */
+  var camelizeRE = /-(\w)/g;
+  var camelize = cached(function (str) {
+    return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+  });
+
+    /**
+   * Create a cached version of a pure function.
+   */
+  function cached (fn) {
+    var cache = Object.create(null);
+    return (function cachedFn (str) {
+      var hit = cache[str];
+      return hit || (cache[str] = fn(str))
+    })
+  }

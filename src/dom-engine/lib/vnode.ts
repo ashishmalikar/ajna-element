@@ -23,7 +23,8 @@ export interface VNodeData {
   attrs?: Attrs
   class?: Classes
   staticClass?: string
-  style?: VNodeStyle
+  style?: VNodeStyle;
+  staticStyle?: VNodeStyle;
   dataset?: Dataset
   on?: On
   // hero?: Hero

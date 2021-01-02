@@ -25,13 +25,25 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
   var cur: any
   var name: string
   var elm = vnode.elm
-  var oldStyle = (oldVnode.data as VNodeData).style
-  var style = (vnode.data as VNodeData).style
+
+  var oldStyle = (oldVnode.data as VNodeData).style || {}
+  var style = (vnode.data as VNodeData).style || {}
+
+  var staticOldStyle = (oldVnode.data as VNodeData).staticStyle
+  var staticStyle = (vnode.data as VNodeData).staticStyle
+
+  for(var staticOldStyle$1 in staticOldStyle) {
+    oldStyle[staticOldStyle$1] = staticOldStyle[staticOldStyle$1];
+  }
+
+  for(var staticStyle$1 in staticStyle) {
+    style[staticStyle$1] = staticStyle[staticStyle$1];
+  }
+
 
   if (!oldStyle && !style) return
   if (oldStyle === style) return
-  oldStyle = oldStyle || {}
-  style = style || {}
+
   var oldHasDel = 'delayed' in oldStyle
 
   for (name in oldStyle) {
