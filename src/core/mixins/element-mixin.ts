@@ -29,14 +29,19 @@ export function elementMixin (baseType: any) {
       
       bindMethods.call(this);
 
-      this.initAttributes ()
+      this.initAttributes ();
+
+      this.initRective();
 
       this.initTemplate();    
 
       this.processSlot$1()
       
       this.compileTemplate(); 
+
     }  
+
+    
 
     connectedCallback() {
       this._render();
@@ -139,6 +144,8 @@ export function elementMixin (baseType: any) {
 
     initTemplate () {
 
+      // console.log("This.render: ", this.render)
+
       if(this.render($api) === undefined) {
         if(this.template !== undefined) {
           this._template = (this.template() as any);
@@ -183,19 +190,39 @@ export function elementMixin (baseType: any) {
       
       let attrs = this.attributes;
 
-      if(this.constructor.name === 'AjnaButtonElement') {
+      // if(!observedAttributes) {
+      //   this.observedAttributes = [];
+      // } 
 
-        for(const attr of attrs) {
+      for(const attr of attrs) {
 
-          let camelizedName = camelize(attr.name);
+        this.observedAttributes.push(attr.name)
 
-          let exists = this.hasOwnProperty(camelizedName);
+        let camelizedName = camelize(attr.name);
 
-          this[camelizedName] = attr.value
+        let exists = this.hasOwnProperty(camelizedName);
 
-        }        
+        this[camelizedName] = attr.value
+
+      }
+
+      console.log("OBserved Attributes: ", this.observedAttributes)
+      
+    }
+
+    initRective () {
+      for(const key in this) {
+        if(key === 'properties') {
+          console.log("Found")
+        }
       }
     }
+
+    attributeChangedCallback () {
+      console.log("attribute calledback")
+    }
+
+    
   }
 }
 

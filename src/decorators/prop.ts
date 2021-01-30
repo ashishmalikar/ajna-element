@@ -1,29 +1,22 @@
-export function prop(classPrototype, prop, descriptor) {
+export function prop (classPrototype: Object, prop: string, descriptor: PropertyDescriptor) {
 
-  if (descriptor.initializer)
-  classPrototype['_' + prop] = descriptor.initializer();
+  const callback = classPrototype["_reRender"];
 
-  delete descriptor.writable;
-  delete descriptor.initializer;
 
-  descriptor.get = function () { 
+  Object.defineProperty(classPrototype, prop, {
+    enumerable: true,
+    configurable: true,
+    set: function(next) {
+      let isInitialized = this.hasOwnProperty("_"+prop);
+      
+      this["_"+prop] = next;
 
-    if(this.getAttribute(prop)) {
-      let val = this.getAttribute(prop);
-      this['_'+prop] = this.getAttribute(prop);
-    }
-
-    return this['_' + prop] 
-  };
-  descriptor.set = function (val) { 
-
-    if(this.getAttribute(prop)) {
-      let val = this.getAttribute(prop);
-      this['_'+prop] = this.getAttribute(prop);
-    }
-
-    this['_'+prop] = val;
-    this._reRender()
-  };
-  
+      if(isInitialized) {
+        callback.call(this);
+      }
+    },
+    get: function() {
+      return this["_"+prop];
+    },
+  });
 }

@@ -3,6 +3,7 @@ const xmlNS = 'http://www.w3.org/XML/1998/namespace';
 const colonChar = 58;
 const xChar = 120;
 function updateAttrs(oldVnode, vnode) {
+    // console.log("updaing attributes: ", vnode)
     var key;
     var elm = vnode.elm;
     var oldAttrs = oldVnode.data.attrs;

@@ -5,6 +5,7 @@
     "experimentalDecorators": true,
     "target": "es2015",
     "module": "ESNext",
+    "isolatedModules": true
   },
   "include": ["src"]
 }

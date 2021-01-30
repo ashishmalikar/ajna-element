@@ -57,9 +57,6 @@ function tagName (elm: Element): string {
 }
 
 function setTextContent (node: Node, text: string | null): void {
-
-  console.log("setting text")
-
   node.textContent = text
 }
 

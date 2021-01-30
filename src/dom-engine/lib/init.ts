@@ -19,7 +19,7 @@ type VNodeQueue = VNode[];
 const emptyNode = vnode('', {}, [], undefined, undefined)
 
 function isVnode (vnode: any): vnode is VNode {
-  return vnode.sel !== undefined
+  return vnode?.sel !== undefined
 }
 
 function sameVnode (vnode1: VNode, vnode2: VNode): boolean {
@@ -74,6 +74,9 @@ export function init() {
   }
 
   function emptyNodeAt(elm) {
+
+    // console.log("apiL ", elm)
+
     return vnode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
   }
 
@@ -336,6 +339,8 @@ export function init() {
   }
 
   return function patch(oldVNode, vnode) {
+
+    // console.log("this old node: ", oldVNode)
 
     let i, elm, parent;
     const insertedVnodeQueue = [];

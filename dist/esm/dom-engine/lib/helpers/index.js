@@ -141,13 +141,44 @@ function renderList(val, render) {
     (ret)._isVList = true;
     return ret;
 }
+function renderSlot(name, content) {
+    if (name === 'default') {
+        let temp = document.createElement("div");
+        temp.innerHTML = content;
+        temp.querySelectorAll("*").forEach((el) => {
+            if (el.hasAttribute("slot")) {
+                temp.removeChild(el);
+            }
+        });
+        return vnode("slot", {}, undefined, temp.innerHTML, undefined);
+    }
+    else {
+        let temp = document.createElement("div");
+        temp.innerHTML = content;
+        let slotContent = temp.querySelector("[slot=" + name + "]");
+        return vnode("slot", {
+            attrs: {
+                name: name
+            }
+        }, undefined, slotContent === null || slotContent === void 0 ? void 0 : slotContent.innerHTML, undefined);
+    }
+}
+var createEmptyVNode = function (text) {
+    if (text === void 0)
+        text = '';
+    var node = vnode(undefined, undefined, [], text, undefined);
+    node.text = text;
+    // node.isComment = true;
+    return node;
+};
 export const $api = {
     _c: h,
-    _v: function (val) {
-        return {
-            text: val
-        };
-    },
+    _v: createTextVNode,
     _s: toString,
-    _l: renderList
+    _l: renderList,
+    _t: renderSlot,
+    _e: createEmptyVNode
 };
+function createTextVNode(v) {
+    return vnode(undefined, undefined, undefined, v, undefined);
+}

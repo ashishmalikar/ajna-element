@@ -4,7 +4,7 @@ import { modules } from './modules';
 const hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 const emptyNode = vnode('', {}, [], undefined, undefined);
 function isVnode(vnode) {
-    return vnode.sel !== undefined;
+    return (vnode === null || vnode === void 0 ? void 0 : vnode.sel) !== undefined;
 }
 function sameVnode(vnode1, vnode2) {
     return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel;
@@ -49,6 +49,7 @@ export function init() {
         }
     }
     function emptyNodeAt(elm) {
+        // console.log("apiL ", elm)
         return vnode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
     }
     function createRmCb(childElm, listeners) {
@@ -93,7 +94,8 @@ export function init() {
                 }
             }
             else if (isPrimitive(vnode.text)) {
-                api.appendChild(elm, api.createTextNode(vnode.text));
+                elm.innerHTML = vnode.text;
+                // api.appendChild(elm, api.createTextNode(vnode.text))
             }
         }
         else {
@@ -281,11 +283,14 @@ export function init() {
         (_e = hook === null || hook === void 0 ? void 0 : hook.postpatch) === null || _e === void 0 ? void 0 : _e.call(hook, oldVnode, vnode);
     }
     return function patch(oldVNode, vnode) {
+        // console.log("this old node: ", oldVNode)
         let i, elm, parent;
         const insertedVnodeQueue = [];
         if (!isVnode(oldVNode)) {
             oldVNode = emptyNodeAt(oldVNode);
         }
+        if (isUndef(vnode))
+            console.error("No template provided");
         // For same node
         if (sameVnode(oldVNode, vnode)) {
             patchVnode(oldVNode, vnode, insertedVnodeQueue);
@@ -293,6 +298,7 @@ export function init() {
         else {
             elm = oldVNode.elm;
             createElm(vnode, insertedVnodeQueue);
+            elm.innerHTML = "";
             api.appendChild(elm, vnode.elm);
         }
         return vnode;
