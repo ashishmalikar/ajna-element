@@ -27,18 +27,9 @@ export function elementMixin (baseType: any) {
     constructor () {
       super();
 
-      // console.log('Main Ajna Mixin constructor called')
-      
       bindMethods.call(this);
-
-      // this.initAttributes ();
-
-      this.initRective();
-
       this.initTemplate();    
-
       this.processSlot$1()
-      
       this.compileTemplate(); 
 
     }  
@@ -180,6 +171,8 @@ export function elementMixin (baseType: any) {
 
     initAttributes () {
       
+      console.log("Element: ", this)
+
       let attrs = this.attributes;
 
       // if(!observedAttributes) {
@@ -200,14 +193,6 @@ export function elementMixin (baseType: any) {
 
       // console.log("OBserved Attributes: ", this.observedAttributes)
       
-    }
-
-    initRective () {
-      for(const key in this) {
-        if(key === 'properties') {
-          console.log("Found")
-        }
-      }
     }
 
     attributeChangedCallback () {
