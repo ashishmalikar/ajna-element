@@ -26,10 +26,12 @@ export function elementMixin (baseType: any) {
 
     constructor () {
       super();
+
+      // console.log('Main Ajna Mixin constructor called')
       
       bindMethods.call(this);
 
-      this.initAttributes ();
+      // this.initAttributes ();
 
       this.initRective();
 
@@ -40,9 +42,6 @@ export function elementMixin (baseType: any) {
       this.compileTemplate(); 
 
     }  
-
-    
-
     connectedCallback() {
       this._render();
     }
@@ -53,15 +52,8 @@ export function elementMixin (baseType: any) {
 
       // Check if tempalte content has slot property
       if(this.hasSlot(template)) {
-
-        // generate ast for inner html
-        // generate ast for template content 
-
         let htmlAST = parse(innerHTML, baseOptions), templateAST = parse(template, baseOptions);
-
       }
-
-      
     }
 
     /**
@@ -206,7 +198,7 @@ export function elementMixin (baseType: any) {
 
       }
 
-      console.log("OBserved Attributes: ", this.observedAttributes)
+      // console.log("OBserved Attributes: ", this.observedAttributes)
       
     }
 

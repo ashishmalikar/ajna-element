@@ -20,6 +20,7 @@ export function elementMixin(baseType) {
             this.compileTemplate();
         }
         connectedCallback() {
+            console.log('callback called')
             this._render();
         }
         processSlot$1() {
