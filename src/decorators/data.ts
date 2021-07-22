@@ -1,17 +1,19 @@
 export function data (classPrototype: Object, prop: string, descriptor: PropertyDescriptor) {
 
-  // if(descriptor) {
-  //   console.log("Descriptor availabel for: ", classPrototype.constructor.name)
-  // }
-
   const callback = classPrototype["_reRender"];
 
-  Object.defineProperty(classPrototype, prop, {
+  Object.defineProperty(classPrototype.constructor.prototype, prop, {
     enumerable: true,
     configurable: true,
-    set: function(next) {
+    set (next) {
+
+       console.log('setter called') 
+
       let isInitialized = this.hasOwnProperty("_"+prop);
-      this["_"+prop] = next;
+      this.constructor.prototype["_"+prop] = next;
+
+      console.log('isInitialized: ', isInitialized)
+
       if(isInitialized) {
         callback.call(this);
       }
@@ -20,7 +22,8 @@ export function data (classPrototype: Object, prop: string, descriptor: Property
 
     },
     get: function() {
-      return this["_"+prop];
+      console.log('Getter called')
+      return this.constructor.prototype["_"+prop];
     },
   });
 }

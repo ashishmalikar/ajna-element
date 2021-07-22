@@ -26,23 +26,13 @@ export function elementMixin (baseType: any) {
 
     constructor () {
       super();
-      
+
       bindMethods.call(this);
-
-      this.initAttributes ();
-
-      this.initRective();
-
       this.initTemplate();    
-
       this.processSlot$1()
-      
       this.compileTemplate(); 
 
     }  
-
-    
-
     connectedCallback() {
       this._render();
     }
@@ -53,15 +43,8 @@ export function elementMixin (baseType: any) {
 
       // Check if tempalte content has slot property
       if(this.hasSlot(template)) {
-
-        // generate ast for inner html
-        // generate ast for template content 
-
         let htmlAST = parse(innerHTML, baseOptions), templateAST = parse(template, baseOptions);
-
       }
-
-      
     }
 
     /**
@@ -188,6 +171,8 @@ export function elementMixin (baseType: any) {
 
     initAttributes () {
       
+      console.log("Element: ", this)
+
       let attrs = this.attributes;
 
       // if(!observedAttributes) {
@@ -206,16 +191,8 @@ export function elementMixin (baseType: any) {
 
       }
 
-      console.log("OBserved Attributes: ", this.observedAttributes)
+      // console.log("OBserved Attributes: ", this.observedAttributes)
       
-    }
-
-    initRective () {
-      for(const key in this) {
-        if(key === 'properties') {
-          console.log("Found")
-        }
-      }
     }
 
     attributeChangedCallback () {
