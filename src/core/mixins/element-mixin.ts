@@ -1,5 +1,5 @@
 import { init } from '../../dom-engine/index';
-import {compiler, parse, baseOptions} from 'ajna-template-compiler';
+import compiler from 'ajna-template-compiler';
 import { $api } from '../../dom-engine/lib/helpers/index';
 import { VNode } from '../../dom-engine/lib/vnode';
 
