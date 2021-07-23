@@ -1,0 +1,16 @@
+import parse from '../parser';
+import generate from '../codegen/generate'
+
+export default function baseCompile(template, options){
+  // parse template to ast element
+  let ast = parse(template.trim(), options);
+  
+  let code = generate (ast, options);
+
+  // return code;
+  return {
+    ast: ast,
+    render: code.render,
+    staticRenderFns: code.staticRenderFns
+  }
+}
