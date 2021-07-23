@@ -8,15 +8,15 @@ export function reactiveMembraneMixin (baseType: any) {
       if(!data) return;
     
       for (let dataKey in data) {
-        Object.defineProperty(this.constructor.prototype, dataKey, {
+        Object.defineProperty(this, dataKey, {
           enumerable: false,
           configurable: true,
           set: (next) => {
-            this.constructor.prototype['_'+dataKey] = next
+            this['_'+dataKey] = next
             this._reRender()
           },
           get:  () => {
-            return this.constructor.prototype['_'+dataKey] ?  this.constructor.prototype['_'+dataKey]: data[dataKey]
+            return this['_'+dataKey] ?  this['_'+dataKey]: data[dataKey]
           }
         })
       }
