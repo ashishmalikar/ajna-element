@@ -1,4 +1,4 @@
-import {baseWarn} from '../warnings';
+import {baseWarn} from '../warnings/index';
 import pluckModuleFunction from '../compilers/pluckModuleFunction';
 
 /**
@@ -15,7 +15,7 @@ function extend (to, _from) {
 
 function on (el, dir) {
   if (process.env.NODE_ENV !== 'production' && dir.modifiers) {
-    warn("v-on without argument does not support modifiers.");
+    // warn("v-on without argument does not support modifiers.");
   }
   el.wrapListeners = function (code) { return ("_g(" + code + "," + (dir.value) + ")"); };
 }
@@ -47,7 +47,7 @@ export default function (options) {
   this.transforms = pluckModuleFunction(options.modules, 'transformCode');
   this.dataGenFns = pluckModuleFunction(options.modules, 'genData');
   this.directives = extend(extend({}, baseDirectives), options.directives);
-  var isReservedTag = options.isReservedTag || no;
+  var isReservedTag = options.isReservedTag || 'no';
   this.maybeComponent = function (el) { return !!el.component || !isReservedTag(el.tag); };
   this.onceId = 0;
   this.staticRenderFns = [];
