@@ -8,37 +8,9 @@ import {
   argRE
  } from '../shared/RE';
 
- import {parseFilters} from '../shared/parseFilter';
-import makeMap from '../shared/makeMap';
-
- // attributes that should be using props for binding
-var acceptValue = makeMap('input,textarea,option,select,progress');
-
- var mustUseProp = function (tag, type, attr) {
-  return (
-    (attr === 'value' && acceptValue(tag)) && type !== 'button' ||
-    (attr === 'selected' && tag === 'option') ||
-    (attr === 'checked' && tag === 'input') ||
-    (attr === 'muted' && tag === 'video')
-  )
-};
+ import {parseFilters} from '../shared/parseFilter'
 
 let delimiters;
-
-function rangeSetItem (
-  item,
-  range
-) {
-  if (range) {
-    if (range.start != null) {
-      item.start = range.start;
-    }
-    if (range.end != null) {
-      item.end = range.end;
-    }
-  }
-  return item
-}
 
 function addAttr (el, name, value, range, dynamic) {
   var attrs = dynamic
@@ -48,24 +20,36 @@ function addAttr (el, name, value, range, dynamic) {
   el.plain = false;
 }
 
+var platformMustUseProp;
+// platformMustUseProp = options.mustUseProp || no;
+
 export function processAttrs (el) {
 
-  let platformMustUseProp = mustUseProp;
-
   var list = el.attrsList;
+
   var i, l, name, rawName, value, modifiers, syncGen, isDynamic;
+
+  var dirRE$2= /(\{(?:.)+?\})/g;
+  
   for (i = 0, l = list.length; i < l; i++) {
+  
     name = rawName = list[i].name;
-
-    console.log('Name: ', name)
-
+  
     value = list[i].value;
+
+    // console.log("name: ", name)
+    // console.log("default dir: ", dirRE.test(name))
+    // console.log("New: ", dirRE$2.test(value))
+    // console.log('*********************************************************************')
+  
     if (dirRE.test(name)) {
 
       // mark element as dynamic
       el.hasBindings = true;
+      
       // modifiers
-      modifiers = parseModifiers(name.replace(dirRE, ''));
+      modifiers = parseModifiers(value.replace(dirRE, ''));
+
       // support .foo shorthand syntax for the .prop modifier
       if (modifiers) {
         name = name.replace(modifierRE, '');
@@ -131,14 +115,16 @@ export function processAttrs (el) {
             }
           }
         }
-        if ((modifiers && modifiers.prop) || (
-          !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name)
-        )) {
-          addProp(el, name, value, list[i], isDynamic);
-        } else {
+
+        // console.log("modifiers: ", modifiers)
+
+        // if (modifiers && modifiers.prop) {
+        //   addProp(el, name, value, list[i], isDynamic);
+        // } else {
           addAttr(el, name, value, list[i], isDynamic);
-        }
-      } else if (onRE.test(name)) { // on
+        // }
+
+      } else if (onRE.test(name)) { // v-on
         name = name.replace(onRE, '');
         isDynamic = dynamicArgRE.test(name);
         if (isDynamic) {
@@ -146,6 +132,9 @@ export function processAttrs (el) {
         }
         addHandler(el, name, value, modifiers, false,list[i], isDynamic);
       } else { // normal directives
+
+        // console.log("In else part")
+
         name = name.replace(dirRE, '');
         // parse arg
         var argMatch = name.match(argRE);
@@ -164,6 +153,9 @@ export function processAttrs (el) {
         }
       }
     } else {
+
+      // console.log("In second else")
+
       // literal attribute
       if (process.env.NODE_ENV !== 'production') {
         var res = parseText(value, delimiters);
@@ -181,12 +173,17 @@ export function processAttrs (el) {
       // #6887 firefox doesn't update muted state if set via attribute
       // even immediately after element creation
       if (!el.component &&
-          name === 'muted' &&
-          platformMustUseProp(el.tag, el.attrsMap.type, name)) {
+          name === 'muted'
+          ) {
         addProp(el, name, 'true', list[i]);
       }
     }
   }
+}
+
+function addProp (el, name, value, range, dynamic) {
+  (el.props || (el.props = [])).push(rangeSetItem({ name: name, value: value, dynamic: dynamic }, range));
+  el.plain = false;
 }
 
 function parseText (
@@ -315,8 +312,6 @@ function addHandler (
   }
 
   var newHandler = rangeSetItem({ value: value.trim(), dynamic: dynamic }, range);
-
-  console.log("ne handler: ", newHandler)
 
   if (modifiers !== emptyObject) {
     newHandler.modifiers = modifiers;
