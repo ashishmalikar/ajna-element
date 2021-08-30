@@ -5,7 +5,7 @@
 <template>
   <div id="App" class="App">
     <header>Welcome {{name}}</header>
-    <hds-button onclick={this.handleClick} label="Click Here"><hds-button>
+    <hds-button @click={this.handleClick} label="Click Here"><hds-button>
   </div>
 </template>
 ```
@@ -23,21 +23,14 @@ import { AjnaElement } from 'ajna';
 
 export default class SampleElement extends AjnaElement {
   
-  @data
-  name = "Ashish";
+  data () {
+    return {
+      name: "Ashish"
+    }
+  }
 
   constructor() {
     super();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  plugins ( ) {
-    return [
-
-    ]
   }
 
   template () {
