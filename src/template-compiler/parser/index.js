@@ -434,7 +434,7 @@ export default function parse (
   template,
   options
 ) {
-
+console.log("Parsing started")
   template = template.replaceAll("[\\n\\r\\t]+", "");
   
   let warn$1 = options.warn || baseWarn;
