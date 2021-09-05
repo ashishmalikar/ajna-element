@@ -1,6 +1,5 @@
 import { AjnaDataMixin, AjnaElementMixin, AjnaPropsMixin } from './mixins/index';
 import { reactiveMembraneMixin } from './mixins/reactive-membrane-mixin';
-export { $Ajna } from './ajna';
 
 let baseElement: any = HTMLElement;
 

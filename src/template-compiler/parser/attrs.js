@@ -25,6 +25,7 @@ var platformMustUseProp;
 
 export function processAttrs (el) {
 
+  console.log("Inside process attr")
   var list = el.attrsList;
 
   var i, l, name, rawName, value, modifiers, syncGen, isDynamic;
@@ -36,11 +37,6 @@ export function processAttrs (el) {
     name = rawName = list[i].name;
   
     value = list[i].value;
-
-    // console.log("name: ", name)
-    // console.log("default dir: ", dirRE.test(name))
-    // console.log("New: ", dirRE$2.test(value))
-    // console.log('*********************************************************************')
   
     if (dirRE.test(name)) {
 
@@ -133,7 +129,7 @@ export function processAttrs (el) {
         addHandler(el, name, value, modifiers, false,list[i], isDynamic);
       } else { // normal directives
 
-        // console.log("In else part")
+        console.log("In else part")
 
         name = name.replace(dirRE, '');
         // parse arg
@@ -154,7 +150,7 @@ export function processAttrs (el) {
       }
     } else {
 
-      // console.log("In second else")
+      console.log("In second else")
 
       // literal attribute
       if (process.env.NODE_ENV !== 'production') {
