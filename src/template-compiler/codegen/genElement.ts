@@ -508,7 +508,7 @@ function genFor (
   }
 
   el.forProcessed = true; // avoid recursion
-  return (altHelper || '$api._l') + "((" + "this."+exp + ")," +
+  return (altHelper || '$api._l') + "((" + exp + ")," +
     "function(" + alias + iterator1 + iterator2 + "){" +
       "return " + ((altGen || genElement)(el, state)) +
     '})'

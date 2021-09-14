@@ -67,6 +67,8 @@ function processFor (el) {
   if ((exp = getAndRemoveAttr(el, 'for-each'))) {
     var res = parseFor(exp);
 
+    console.log('res: ', res)
+
     if (res) {
       extend(el, res);
     } else if (process.env.NODE_ENV !== 'production') {
@@ -79,7 +81,13 @@ function processFor (el) {
 }
 
 function parseFor (exp) {
+
+  console.log('For expression: ', exp)
+
   var inMatch = exp.match(forAliasRE);
+
+  console.log('inMatch: ', inMatch)
+
   if (!inMatch) { return }
   var res = {};
   res.for = inMatch[2].trim();
@@ -434,7 +442,7 @@ export default function parse (
   template,
   options
 ) {
-console.log("Parsing started")
+
   template = template.replaceAll("[\\n\\r\\t]+", "");
   
   let warn$1 = options.warn || baseWarn;
@@ -484,14 +492,6 @@ console.log("Parsing started")
           block: element
         });
       }  
-      //else if (process.env.NODE_ENV !== 'production') {
-      //   warnOnce(
-      //     "Component template should contain exactly one root element. " +
-      //     "If you are using v-if on multiple elements, " +
-      //     "use v-else-if to chain them instead.",
-      //     { start: element.start }
-      //   );
-      // }
     }
     if (currentParent && !element.forbidden) {
       if (element.elseif || element.else) {
@@ -580,8 +580,6 @@ console.log("Parsing started")
       }
 
       var element = createASTElement(tag, attrs, currentParent);
-
-      
 
       if (ns) {
         element.ns = ns;

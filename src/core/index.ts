@@ -1,4 +1,4 @@
-import { AjnaDataMixin, AjnaElementMixin, AjnaPropsMixin } from './mixins/index';
+import { AjnaDataMixin, AjnaElementMixin, AjnaPropsMixin, ChildAttacherMixin } from './mixins/index';
 import { reactiveMembraneMixin } from './mixins/reactive-membrane-mixin';
 
 let baseElement: any = HTMLElement;
@@ -10,6 +10,7 @@ baseElement = reactiveMembraneMixin(baseElement);
 
 baseElement = AjnaPropsMixin(baseElement);
 baseElement = AjnaDataMixin(baseElement);
+baseElement = ChildAttacherMixin(baseElement);
 
 
 export const AjnaElement = baseElement;
