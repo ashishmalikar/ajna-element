@@ -82,11 +82,7 @@ function processFor (el) {
 
 function parseFor (exp) {
 
-  console.log('For expression: ', exp)
-
   var inMatch = exp.match(forAliasRE);
-
-  console.log('inMatch: ', inMatch)
 
   if (!inMatch) { return }
   var res = {};
