@@ -2,6 +2,7 @@ import { init } from '../../dom-engine/index';
 import {compiler, baseOptions, parse } from '../../template-compiler/index';
 import { $api } from '../../dom-engine/lib/helpers/index';
 import { VNode } from '../../dom-engine/lib/vnode';
+import * as path from 'path';
 
 
 function bindMethods() {
@@ -127,11 +128,22 @@ export function elementMixin (baseType: any) {
 
     initTemplate () {
 
-      // console.log("This.render: ", this.render)
+      // console.log("This.render: ", this.template)
 
       if(this.render($api) === undefined) {
         if(this.template !== undefined) {
           this._template = (this.template() as any);
+          
+          // check if template is present or not if not then try to get from working directory
+          if(!this._template) {
+            // console.log("Trying to find from working directiry")
+
+            let cwd = process.cwd();
+
+            console.log(path.basename(__dirname))
+
+          }
+
         }
       }
     }
@@ -139,7 +151,7 @@ export function elementMixin (baseType: any) {
     compileTemplate () {
       
       if(this._template) {
-        let compiled = compiler.compileToFunctions(this._template);
+        let compiled = compiler.compileToFunctions(this._template, {}, {});
         this.render = compiled.render;
       }
       
@@ -171,7 +183,7 @@ export function elementMixin (baseType: any) {
 
     initAttributes () {
       
-      console.log("Element: ", this)
+      // console.log("Element: ", this)
 
       let attrs = this.attributes;
 

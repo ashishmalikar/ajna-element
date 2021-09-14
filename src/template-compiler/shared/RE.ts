@@ -2,7 +2,10 @@ var encodedAttr = /&(?:lt|gt|quot|amp|#39);/g;
 var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#39|#10|#9);/g;
 
 var onRE = /^@/;
-var dirRE = /^@|^:|^#/;
+// var dirRE = /^@|^:|^#/;
+const dirRE = process.env.VBIND_PROP_SHORTHAND
+  ? /^v-|^@|^:|^\.|^#/
+  : /^v-|^@|^:|^#/
 var forAliasRE = /([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/;
 var forIteratorRE = /,([^,\}\]]*)(?:,([^,\}\]]*))?$/;
 var stripParensRE = /^\(|\)$/g;

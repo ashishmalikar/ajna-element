@@ -9,5 +9,4 @@ export function dataMixin (baseType: any) {
       this._makeReactive(data);
     }
   }
-
 }
