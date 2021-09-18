@@ -192,7 +192,7 @@ function processElement (
   processRef(element);
   processSlotContent(element);
   processSlotOutlet(element);
-  processComponent(element);
+  
   for (var i = 0; i < transforms.length; i++) {
     element = transforms[i](element, options) || element;
   }
@@ -204,12 +204,6 @@ function processKey (el) {
   var exp = getBindingAttr(el, 'key');
   if (exp) {
     if (process.env.NODE_ENV !== 'production') {
-      if (el.tag === 'template') {
-        // warn$1(
-        //   "<template> cannot be keyed. Place the key on real elements instead.",
-        //   getRawBindingAttr(el, 'key')
-        // );
-      }
       if (el.for) {
         var iterator = el.iterator2 || el.iterator1;
         var parent = el.parent;
@@ -399,16 +393,6 @@ function processSlotOutlet (el) {
       //   getRawBindingAttr(el, 'key')
       // );
     }
-  }
-}
-
-function processComponent (el) {
-  var binding;
-  if ((binding = getBindingAttr(el, 'is'))) {
-    el.component = binding;
-  }
-  if (getAndRemoveAttr(el, 'inline-template') != null) {
-    el.inlineTemplate = true;
   }
 }
 
