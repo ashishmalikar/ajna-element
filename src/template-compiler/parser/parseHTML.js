@@ -1,9 +1,9 @@
-import { 
-  comment, 
-  endTag, 
-  startTagOpen, 
-  conditionalComment, 
-  doctype, 
+import {
+  comment,
+  endTag,
+  startTagOpen,
+  conditionalComment,
+  doctype,
   startTagClose,
   dynamicArgAttribute,
   attribute
@@ -19,6 +19,8 @@ var shouldIgnoreFirstNewline = function (tag, html) { return tag && isIgnoreNewl
 
 var encodedAttr = /&(?:lt|gt|quot|amp|#39);/g;
 var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#39|#10|#9);/g;
+
+var reCache = {};
 
 function decodeAttr (value, shouldDecodeNewlines) {
   var re = shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr;
