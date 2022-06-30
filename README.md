@@ -1,5 +1,7 @@
 # Ajna Element
 
+Ajna Element is a Web Component framework designed to allow building reactive custom web component.
+
 #### SampleElement.html
 ```html
 <template>
